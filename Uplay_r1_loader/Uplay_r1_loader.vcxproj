@@ -156,12 +156,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Consts.hpp" />
-    <ClInclude Include="JsonTypes\Generators.hpp" />
-    <ClInclude Include="JsonTypes\helper.hpp" />
-    <ClInclude Include="JsonTypes\Profile.hpp" />
-    <ClInclude Include="JsonTypes\Uplay.hpp" />
-    <ClInclude Include="JsonTypes\UplayConfig.hpp" />
-    <ClInclude Include="JsonTypes\UplaySaveMetaDataStorage.hpp" />
+    <ClInclude Include="JsonObjects\Generators.hpp" />
+    <ClInclude Include="JsonObjects\helper.hpp" />
+    <ClInclude Include="JsonObjects\Profile.hpp" />
+    <ClInclude Include="JsonObjects\Uplay.hpp" />
+    <ClInclude Include="JsonObjects\UplayConfig.hpp" />
+    <ClInclude Include="JsonObjects\UplaySaveMetaDataStorage.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UplayConfigHolder.hpp" />

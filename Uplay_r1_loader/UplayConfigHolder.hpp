@@ -1,7 +1,7 @@
 #pragma once
 
-#include "JsonTypes/Generators.hpp"
-#include "JsonTypes/UplayConfig.hpp"
+#include "JsonObjects/Generators.hpp"
+#include "JsonObjects/UplayConfig.hpp"
 
 struct UplayConfigHolder
 {

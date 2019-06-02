@@ -2,8 +2,8 @@
 
 #include "stdafx.h"
 #include "Consts.hpp"
-#include "JsonTypes/Generators.hpp"
-#include "JsonTypes/UplaySaveMetaDataStorage.hpp"
+#include "JsonObjects/Generators.hpp"
+#include "JsonObjects/UplaySaveMetaDataStorage.hpp"
 
 using namespace UplayR1Loader;
 

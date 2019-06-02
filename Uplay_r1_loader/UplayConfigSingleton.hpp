@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 
-#include "JsonTypes/Generators.hpp"
+#include "JsonObjects/Generators.hpp"
 #include "UplayConfigHolder.hpp"
 
 using namespace UplayR1Loader;
