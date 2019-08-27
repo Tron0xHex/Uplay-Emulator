@@ -9,6 +9,7 @@ struct UplayConfigHolder
 	void Open(const path& filePath);
 };
 
+//------------------------------------------------------------------------------
 inline void UplayConfigHolder::Open(const path& filePath)
 {
 	const auto fs = fstream(filePath, ios::in);

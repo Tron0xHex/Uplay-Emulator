@@ -36,18 +36,22 @@ public:
 	static path GetMetaDataStoragePath(const path& storagePath);
 };
 
+//------------------------------------------------------------------------------
 inline UplaySaveInternal::UplaySaveInternal() noexcept : initialName(""), filePath("")
 {
 }
 
+//------------------------------------------------------------------------------
 inline UplaySaveInternal::UplaySaveInternal(const path& path) noexcept : filePath(path)
 {
 }
 
+//------------------------------------------------------------------------------
 inline UplaySaveInternal::UplaySaveInternal(const path& filePath, const string& name) noexcept : initialName(name), filePath(filePath)
 {
 }
 
+//------------------------------------------------------------------------------
 inline DWORD UplaySaveInternal::Open(const int mode)
 {
 	if (fs.is_open())
@@ -60,6 +64,7 @@ inline DWORD UplaySaveInternal::Open(const int mode)
 	return static_cast<DWORD>(fs.is_open());
 }
 
+//------------------------------------------------------------------------------
 inline DWORD UplaySaveInternal::Open()
 {
 	if (fs.is_open())
@@ -72,6 +77,7 @@ inline DWORD UplaySaveInternal::Open()
 	return static_cast<DWORD>(fs.is_open());
 }
 
+//------------------------------------------------------------------------------
 inline DWORD UplaySaveInternal::Write(const DWORD numOfBytesToWrite, const char* buffer)
 {
 	auto result = 0L;
@@ -89,6 +95,7 @@ inline DWORD UplaySaveInternal::Write(const DWORD numOfBytesToWrite, const char*
 	return result;
 }
 
+//------------------------------------------------------------------------------
 inline DWORD UplaySaveInternal::Read(const DWORD numOfBytesToRead, const int offset, char* outBuffer, const LPDWORD outNumOfBytesRead)
 {
 	auto result = 0L;
@@ -104,6 +111,7 @@ inline DWORD UplaySaveInternal::Read(const DWORD numOfBytesToRead, const int off
 	return result;
 }
 
+//------------------------------------------------------------------------------
 inline DWORD UplaySaveInternal::SetName(const int slotId, const char* nameUtf8) const
 {
 	const auto storageDir = filePath.parent_path();
@@ -130,6 +138,7 @@ inline DWORD UplaySaveInternal::SetName(const int slotId, const char* nameUtf8) 
 	return 0L;
 }
 
+//------------------------------------------------------------------------------
 inline DWORD UplaySaveInternal::Remove(const int slotId)
 {
 	if (fs.is_open())
@@ -156,6 +165,7 @@ inline DWORD UplaySaveInternal::Remove(const int slotId)
 	return static_cast<DWORD>(filesystem::remove(filePath));
 }
 
+//------------------------------------------------------------------------------
 inline DWORD UplaySaveInternal::Close()
 {
 	if (!fs.is_open())
@@ -167,6 +177,7 @@ inline DWORD UplaySaveInternal::Close()
 	return 1L;
 }
 
+//------------------------------------------------------------------------------
 inline tuple<int, std::shared_ptr<UplaySaveInternal>> UplaySaveInternal::FromFile(const path& savePath)
 {
 	const auto storageDir = savePath.parent_path();
@@ -187,6 +198,7 @@ inline tuple<int, std::shared_ptr<UplaySaveInternal>> UplaySaveInternal::FromFil
 	return make_tuple(slotId, make_shared<UplaySaveInternal>(savePath));
 }
 
+//------------------------------------------------------------------------------
 inline optional<UplaySaveMetaDataStorage> UplaySaveInternal::ReadMetaDataStorage(
 	const path& storagePath)
 {
@@ -203,6 +215,7 @@ inline optional<UplaySaveMetaDataStorage> UplaySaveInternal::ReadMetaDataStorage
 	return {};
 }
 
+//------------------------------------------------------------------------------
 inline bool UplaySaveInternal::UpdateMetaDataStorage(const path& storagePath,
 	const UplaySaveMetaDataStorage& storage)
 {
@@ -222,6 +235,7 @@ inline bool UplaySaveInternal::UpdateMetaDataStorage(const path& storagePath,
 	return false;
 }
 
+//------------------------------------------------------------------------------
 inline bool UplaySaveInternal::CreateMetaDataStorage(const path& storagePath)
 {
 	auto fs = fstream(GetMetaDataStoragePath(storagePath).string(), ios::out);
@@ -235,11 +249,13 @@ inline bool UplaySaveInternal::CreateMetaDataStorage(const path& storagePath)
 	return false;
 }
 
+//------------------------------------------------------------------------------
 inline bool UplaySaveInternal::IsMetaDataStorageExists(const path& storagePath)
 {
 	return exists(GetMetaDataStoragePath(storagePath));
 }
 
+//------------------------------------------------------------------------------
 inline path UplaySaveInternal::GetMetaDataStoragePath(const path& storagePath)
 {
 	return storagePath / path(Consts::SavesMetaDataStorageName);

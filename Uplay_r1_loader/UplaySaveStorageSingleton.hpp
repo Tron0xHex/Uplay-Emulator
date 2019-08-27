@@ -14,6 +14,7 @@ private:
 	UplaySaveStorageSingleton& operator=(const UplaySaveStorageSingleton&) = delete;
 };
 
+//------------------------------------------------------------------------------
 inline UplaySaveStorageSingleton& UplaySaveStorageSingleton::GetInstance()
 {
 	static UplaySaveStorageSingleton instance;

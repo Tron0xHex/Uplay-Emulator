@@ -12,11 +12,13 @@ struct UplayOverlapped
 	void SetResult(void* result);
 };
 
+//------------------------------------------------------------------------------
 inline void UplayOverlapped::SetZeros()
 {
 	memset(this, NULL, sizeof(UplayOverlapped));
 }
 
+//------------------------------------------------------------------------------
 inline void UplayOverlapped::SetResult(void* result)
 {
 	this->result = result;

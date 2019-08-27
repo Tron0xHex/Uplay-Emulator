@@ -18,6 +18,7 @@ private:
 	UplayConfigSingleton& operator=(const UplayConfigSingleton&) = delete;
 };
 
+//------------------------------------------------------------------------------
 inline UplayConfigSingleton& UplayConfigSingleton::GetInstance()
 {
 	static UplayConfigSingleton instance;
