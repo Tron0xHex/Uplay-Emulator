@@ -5,14 +5,17 @@
 #include "UplayKey.hpp"
 #include "UplaySave.hpp"
 
-struct UplayList
+namespace UplayR1Loader::UplayTypes
 {
-	DWORD count;
-
-	union
+	struct UplayList
 	{
-		void** items;
-		UplayKey** keys;
-		UplaySave** saves;
+		DWORD count;
+
+		union
+		{
+			void** items;
+			UplayKey** keys;
+			UplaySave** saves;
+		};
 	};
-};
+}

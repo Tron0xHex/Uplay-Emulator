@@ -14,7 +14,7 @@
 
 #include "Uplay.hpp"
 
-namespace UplayR1Loader
+namespace UplayR1Loader::JsonObjects
 {
 	using nlohmann::json;
 

@@ -5,22 +5,23 @@
 #include "JsonObjects/Generators.hpp"
 #include "UplayConfigHolder.hpp"
 
-using namespace UplayR1Loader;
-
-struct UplayConfigSingleton
+namespace UplayR1Loader
 {
-	UplayConfigHolder configHolder;
-	static UplayConfigSingleton& GetInstance();
-private:
-	UplayConfigSingleton() = default;
-	~UplayConfigSingleton() = default;
-	UplayConfigSingleton(const UplayConfigSingleton&) = delete;
-	UplayConfigSingleton& operator=(const UplayConfigSingleton&) = delete;
-};
+	struct UplayConfigSingleton
+	{
+		UplayConfigHolder configHolder;
+		static UplayConfigSingleton& GetInstance();
+	private:
+		UplayConfigSingleton() = default;
+		~UplayConfigSingleton() = default;
+		UplayConfigSingleton(const UplayConfigSingleton&) = delete;
+		UplayConfigSingleton& operator=(const UplayConfigSingleton&) = delete;
+	};
 
-//------------------------------------------------------------------------------
-inline UplayConfigSingleton& UplayConfigSingleton::GetInstance()
-{
-	static UplayConfigSingleton instance;
-	return instance;
+	//------------------------------------------------------------------------------
+	inline UplayConfigSingleton& UplayConfigSingleton::GetInstance()
+	{
+		static UplayConfigSingleton instance;
+		return instance;
+	}
 }

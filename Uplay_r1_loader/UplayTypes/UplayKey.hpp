@@ -1,13 +1,16 @@
 #pragma once
 
-struct UplayKey
+namespace UplayR1Loader::UplayTypes
 {
-	const char* cdKey;
-	explicit UplayKey(const char*);
-};
+	struct UplayKey
+	{
+		const char* cdKey;
+		explicit UplayKey(const char*);
+	};
 
-//------------------------------------------------------------------------------
-inline UplayKey::UplayKey(const char* key)
-{
-	cdKey = key;
+	//------------------------------------------------------------------------------
+	inline UplayKey::UplayKey(const char* key)
+	{
+		cdKey = key;
+	}
 }
