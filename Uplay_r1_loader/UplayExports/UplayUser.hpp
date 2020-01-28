@@ -19,12 +19,14 @@ namespace UplayR1Loader::UplayExports
 		const auto uplayKeys = UplayConfigSingleton::GetInstance().configHolder.config.uplay.cdKeys;
 
 		const auto list = new UplayTypes::UplayList{ NULL };
-		const auto keys = new UplayTypes::UplayKey * [uplayKeys.size()]{ nullptr };
+
+		const auto keysSize = static_cast<DWORD>(uplayKeys.size());
+		const auto keys = new UplayTypes::UplayKey * [keysSize]{ nullptr };
 
 		list->keys = keys;
 		list->count = uplayKeys.size();
 
-		for (size_t i = 0; i < uplayKeys.size(); i++)
+		for (DWORD i = 0; i < keysSize; i++)
 		{
 			list->keys[i] = new UplayTypes::UplayKey(uplayKeys.at(i).c_str());
 		}

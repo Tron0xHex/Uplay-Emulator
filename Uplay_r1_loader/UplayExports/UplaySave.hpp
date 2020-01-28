@@ -18,21 +18,23 @@ namespace UplayR1Loader::UplayExports
 
 		overlapped->SetZeros();
 
-		auto index = 0U;
+		DWORD index = 0U;
 
-		const auto list = new UplayTypes::UplayList{ NULL };
+		const auto uplayList = new UplayTypes::UplayList{ NULL };
 		const auto uplaySaves = UplaySaveStorageSingleton::GetInstance().storage.GetSaves();
-		const auto savesList = new UplayTypes::UplaySave * [uplaySaves.size()]{ nullptr };
 
-		list->count = uplaySaves.size();
-		list->saves = savesList;
+		const auto savesSize = static_cast<DWORD>(uplaySaves.size());
+		const auto savesList = new UplayTypes::UplaySave * [savesSize]{ nullptr };
+
+		uplayList->count = static_cast<DWORD>(uplaySaves.size());
+		uplayList->saves = savesList;
 
 		for (const auto& [slotId, uplaySave] : uplaySaves)
 		{
 			savesList[index++] = new UplayTypes::UplaySave(slotId, uplaySave->initialName.c_str());
 		}
 
-		*outGamesList = list;
+		*outGamesList = uplayList;
 
 		overlapped->SetResult(&outGamesList);
 		return 1L;
