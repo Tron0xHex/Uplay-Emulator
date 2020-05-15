@@ -10,37 +10,61 @@
 
 namespace UplayR1Loader::UplayExports
 {
-	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_SAVE_GetSavegames(
+	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_GetSavegames(
 		UplayTypes::UplayList** outGamesList, UplayTypes::UplayOverlapped* overlapped)
 	{
 		LOGD_IF(UPLAY_LOG) << hex << "OutGamesList: " << outGamesList
 			<< " Overlapped: " << overlapped;
 
-		overlapped->SetZeros();
+#ifdef UPLAY_API_2014_NEXT_GEN
+		int index = 0U;
 
-		auto index = 0U;
-
-		const auto list = new UplayTypes::UplayList{ NULL };
+		const auto uplayList = new UplayTypes::UplayList{NULL};
 		const auto uplaySaves = UplaySaveStorageSingleton::GetInstance().storage.GetSaves();
-		const auto savesList = new UplayTypes::UplaySave * [uplaySaves.size()]{ nullptr };
 
-		list->count = uplaySaves.size();
-		list->saves = savesList;
+		const auto savesSize = static_cast<int>(uplaySaves.size());
+		const auto savesList = new UplayTypes::UplaySave * [savesSize]{nullptr};
+
+		uplayList->count = static_cast<int>(uplaySaves.size());
+		uplayList->saves = savesList;
+
+		for (const auto& [slotId, uplaySave] : uplaySaves)
+		{
+			savesList[index++] = new UplayTypes::UplaySave
+				(slotId, uplaySave->initialName.c_str());
+		}
+
+		*outGamesList = uplayList;
+
+		overlapped->SetResult();
+#else
+		int index = 0U;
+
+		const auto uplayList = new UplayTypes::UplayList{ NULL };
+		const auto uplaySaves = UplaySaveStorageSingleton::GetInstance().storage.GetSaves();
+
+		const auto savesSize = static_cast<int>(uplaySaves.size());
+		const auto savesList = new UplayTypes::UplaySave * [savesSize] {nullptr};
+
+		uplayList->count = static_cast<int>(uplaySaves.size());
+		uplayList->saves = savesList;
 
 		for (const auto& [slotId, uplaySave] : uplaySaves)
 		{
 			savesList[index++] = new UplayTypes::UplaySave(slotId, uplaySave->initialName.c_str());
 		}
 
-		*outGamesList = list;
+		*outGamesList = uplayList;
 
+		overlapped->SetZeros();
 		overlapped->SetResult(&outGamesList);
-		return 1L;
+#endif
+		return 1;
 	}
 
-	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_SAVE_Open(const int slotId, const int mode,
-		int* outSaveHandle,
-		UplayTypes::UplayOverlapped* overlapped)
+	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_Open(const int slotId, const int mode,
+	                                                int* outSaveHandle,
+	                                                UplayTypes::UplayOverlapped* overlapped)
 	{
 		LOGD_IF(UPLAY_LOG) << hex << "SlotId: " << slotId << " Mode: " << mode
 			<< " OutSaveHandle: " << outSaveHandle
@@ -53,8 +77,6 @@ namespace UplayR1Loader::UplayExports
 		{
 			openMode = openMode | ios::trunc;
 		}
-
-		overlapped->SetZeros();
 
 		try
 		{
@@ -75,39 +97,44 @@ namespace UplayR1Loader::UplayExports
 				result = UplaySaveStorageSingleton::GetInstance().storage.GetSave(slotId)->Open(openMode);
 			}
 		}
-		catch (exception & ex)
+		catch (exception& ex)
 		{
 			LOGD_IF(UPLAY_LOG) << ex.what();
 		}
 
 		*outSaveHandle = slotId;
 
+#ifdef UPLAY_API_2014_NEXT_GEN
+		overlapped->SetResult();
+#else
+		overlapped->SetZeros();
 		overlapped->SetResult(&outSaveHandle);
+#endif
 		return result;
 	}
 
-	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_SAVE_Close(const int outSaveHandle)
+	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_Close(const int outSaveHandle)
 	{
 		LOGD_IF(UPLAY_LOG) << hex << "OutSaveHandle: " << outSaveHandle;
 
-		if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(outSaveHandle)) {
-
+		if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(outSaveHandle))
+		{
 			const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(outSaveHandle);
 
 			if (uplaySave->Close())
 			{
-				return 1L;
+				return 1;
 			}
 		}
 
-		return 0L;
+		return 0;
 	}
 
-	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_SAVE_Read(const int saveHandle,
-		const DWORD numOfBytesToRead,
-		const int offset, char** outBuffer,
-		const LPDWORD outNumOfBytesRead,
-		UplayTypes::UplayOverlapped* overlapped)
+	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_Read(const int saveHandle,
+	                                                const int numOfBytesToRead,
+	                                                const int offset, char** outBuffer,
+	                                                unsigned int* outNumOfBytesRead,
+	                                                UplayTypes::UplayOverlapped* overlapped)
 	{
 		LOGD_IF(UPLAY_LOG) << hex << "SaveHandle: " << saveHandle
 			<< " NumOfBytesToRead: " << numOfBytesToRead << " Offset: " << offset
@@ -118,27 +145,31 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle)) {
-
+			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
+			{
 				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
 
 				if (uplaySave->Read(numOfBytesToRead, offset, *outBuffer, outNumOfBytesRead))
 				{
-					overlapped->SetResult(outNumOfBytesRead);
-					return 1L;
+#ifdef UPLAY_API_2014_NEXT_GEN
+					overlapped->SetResult();
+#else
+					overlapped->SetResult(static_cast<void*>(outNumOfBytesRead));
+#endif
+					return 1;
 				}
 			}
 		}
-		catch (exception & ex)
+		catch (exception& ex)
 		{
 			LOGD_IF(UPLAY_LOG) << ex.what();
 		}
 
-		return 0L;
+		return 0;
 	}
 
-	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_SAVE_Write(
-		const int saveHandle, const DWORD numOfBytesToWrite, const char** buffer,
+	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_Write(
+		const int saveHandle, const int numOfBytesToWrite, const char** buffer,
 		UplayTypes::UplayOverlapped* overlapped)
 	{
 		LOGD_IF(UPLAY_LOG) << hex << "SaveHandle: " << saveHandle
@@ -150,52 +181,56 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle)) {
-
+			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
+			{
 				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
 
 				if (uplaySave->Write(numOfBytesToWrite, *buffer))
 				{
+#ifdef UPLAY_API_2014_NEXT_GEN
+					overlapped->SetResult();
+#else
 					overlapped->SetResult(&buffer);
-					return 1L;
+#endif
+					return 1;
 				}
 			}
 		}
-		catch (exception & ex)
+		catch (exception& ex)
 		{
 			LOGD_IF(UPLAY_LOG) << ex.what();
 		}
 
-		return 0L;
+		return 0;
 	}
 
-	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_SAVE_SetName(const int saveHandle,
-		const char* nameUtf8)
+	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_SetName(const int saveHandle,
+	                                                   const char* nameUtf8)
 	{
 		LOGD_IF(UPLAY_LOG) << hex << "SaveHandle: " << saveHandle
 			<< " NameUtf8: " << nameUtf8;
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle)) {
-
+			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
+			{
 				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
 
 				if (uplaySave->SetName(saveHandle, nameUtf8))
 				{
-					return 1L;
+					return 1;
 				}
 			}
 		}
-		catch (exception & ex)
+		catch (exception& ex)
 		{
 			LOGD_IF(UPLAY_LOG) << ex.what();
 		}
 
-		return 0L;
+		return 0;
 	}
 
-	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_SAVE_Remove(
+	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_Remove(
 		int slotId, UplayTypes::UplayOverlapped* overlapped)
 	{
 		LOGD_IF(UPLAY_LOG) << hex << "SlotId: " << slotId << " Overlapped: " << overlapped;
@@ -204,23 +239,28 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(slotId)) {
-
+			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(slotId))
+			{
 				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(slotId);
 
 				if (uplaySave->Remove(slotId))
 				{
 					UplaySaveStorageSingleton::GetInstance().storage.RemoveSave(slotId);
+
+#ifdef UPLAY_API_2014_NEXT_GEN
+					overlapped->SetResult();
+#else
 					overlapped->SetResult(&slotId);
-					return 1L;
+#endif
+					return 1;
 				}
 			}
 		}
-		catch (exception & ex)
+		catch (exception& ex)
 		{
 			LOGD_IF(UPLAY_LOG) << ex.what();
 		}
 
-		return 0L;
+		return 0;
 	}
 }

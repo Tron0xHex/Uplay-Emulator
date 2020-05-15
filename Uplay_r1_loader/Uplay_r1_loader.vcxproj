@@ -23,7 +23,7 @@
     <ProjectGuid>{C34E3307-8C2E-4F84-87F4-42856E49BEE6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Uplayr1loader</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,13 +42,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -76,7 +76,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)\ThirdParty;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\ThirdParty;$(IncludePath)</IncludePath>
+    <TargetName>uplay_r1_loader64</TargetName>
+    <LibraryPath>$(SolutionDir)\ThirdParty\minhook\lib;$(IncludePath);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -84,7 +86,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)\ThirdParty;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\ThirdParty;$(IncludePath)</IncludePath>
+    <TargetName>uplay_r1_loader64</TargetName>
+    <LibraryPath>$(SolutionDir)\ThirdParty\minhook\lib;$(IncludePath);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -110,10 +114,12 @@
       <PreprocessorDefinitions>_DEBUG;UPLAYR1LOADER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>minhook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,16 +152,19 @@
       <PreprocessorDefinitions>NDEBUG;UPLAYR1LOADER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>minhook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Consts.hpp" />
+    <ClInclude Include="Hooks.hpp" />
     <ClInclude Include="JsonObjects\Generators.hpp" />
     <ClInclude Include="JsonObjects\helper.hpp" />
     <ClInclude Include="JsonObjects\Profile.hpp" />
@@ -166,17 +175,19 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UplayConfigHolder.hpp" />
     <ClInclude Include="UplayConfigSingleton.hpp" />
-    <ClInclude Include="UplayExports\UplayAchImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayAvatarImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayCommonImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayFriendsImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayInstallerImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayMetaDataImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayOverlayImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayPartyImpl.hpp" />
-    <ClInclude Include="UplayExports\UplaySaveImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayUserImpl.hpp" />
-    <ClInclude Include="UplayExports\UplayWinImpl.hpp" />
+    <ClInclude Include="UplayExports\UplayAchievements.hpp" />
+    <ClInclude Include="UplayExports\UplayAvatar.hpp" />
+    <ClInclude Include="UplayExports\UplayCommon.hpp" />
+    <ClInclude Include="UplayExports\UplayFriends.hpp" />
+    <ClInclude Include="UplayExports\UplayInstaller.hpp" />
+    <ClInclude Include="UplayExports\UplayMetaData.hpp" />
+    <ClInclude Include="UplayExports\UplayOptions.hpp" />
+    <ClInclude Include="UplayExports\UplayOverlay.hpp" />
+    <ClInclude Include="UplayExports\UplayParty.hpp" />
+    <ClInclude Include="UplayExports\UplayPresence.hpp" />
+    <ClInclude Include="UplayExports\UplaySave.hpp" />
+    <ClInclude Include="UplayExports\UplayUser.hpp" />
+    <ClInclude Include="UplayExports\UplayWin.hpp" />
     <ClInclude Include="UplaySaveInternal.hpp" />
     <ClInclude Include="UplaySaveStorageInternal.hpp" />
     <ClInclude Include="UplaySaveStorageSingleton.hpp" />

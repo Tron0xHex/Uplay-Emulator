@@ -23,5 +23,8 @@ namespace UplayR1Loader::JsonObjects
 		Profile profile;
 		std::vector<std::string> cdKeys;
 		std::string saves;
+		std::string language;
+		bool offline;
+		bool hooks;
 	};
 }

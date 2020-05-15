@@ -62,16 +62,22 @@ namespace nlohmann
 	inline void from_json(const json& j, UplayR1Loader::JsonObjects::Uplay& x)
 	{
 		x.profile = j.at("Profile").get<UplayR1Loader::JsonObjects::Profile>();
-		x.cdKeys = j.at("CdKeys").get<std::vector<std::string>>();
 		x.saves = j.at("Saves").get<std::string>();
+		x.cdKeys = j.at("CdKeys").get<std::vector<std::string>>();
+		x.language = j.at("Language").get<std::string>();
+		x.offline = j.at("Offline").get<bool>();
+		x.hooks = j.at("Hooks").get<bool>();
 	}
 
 	inline void to_json(json& j, const UplayR1Loader::JsonObjects::Uplay& x)
 	{
 		j = json::object();
 		j["Profile"] = x.profile;
-		j["CdKeys"] = x.cdKeys;
 		j["Saves"] = x.saves;
+		j["CdKeys"] = x.cdKeys;
+		j["Language"] = x.language;
+		j["Offline"] = x.offline;
+		j["Hooks"] = x.hooks;
 	}
 
 	inline void from_json(const json& j, UplayR1Loader::JsonObjects::UplayConfig& x)

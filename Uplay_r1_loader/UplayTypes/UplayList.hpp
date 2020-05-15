@@ -9,7 +9,7 @@ namespace UplayR1Loader::UplayTypes
 {
 	struct UplayList
 	{
-		DWORD count;
+		int count;
 
 		union
 		{

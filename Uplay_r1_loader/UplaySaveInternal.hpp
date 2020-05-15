@@ -16,15 +16,16 @@ namespace UplayR1Loader
 		path filePath;
 
 		UplaySaveInternal() noexcept;
-		UplaySaveInternal(const path& pt) noexcept;
-		UplaySaveInternal(const path& pt, const string& name) noexcept;
+		explicit UplaySaveInternal(const path& path) noexcept;
+		UplaySaveInternal(const path& filePath, const string& name) noexcept;
 
 		DWORD Open();
 		DWORD Open(int mode);
 		DWORD Write(DWORD numOfBytesToWrite, const char* buffer);
-		DWORD Read(DWORD numOfBytesToRead, int offset, char* outBuffer, LPDWORD outNumOfBytesRead);
+		DWORD Read(DWORD numOfBytesToRead, int offset, char* outBuffer, unsigned int* outNumOfBytesRead);
 		DWORD SetName(int slotId, const char* nameUtf8) const;
 		DWORD Remove(int slotId);
+		DWORD GetSize() const;
 		DWORD Close();
 
 		static tuple<int, shared_ptr<UplaySaveInternal>> FromFile(const path& savePath);
@@ -84,7 +85,7 @@ namespace UplayR1Loader
 
 		if (fs)
 		{
-			fs.seekg(Consts::DefaultOffset, ios::beg);
+			fs.seekg(Consts::DefaultSaveDataOffset, ios::beg);
 			fs.write(buffer, numOfBytesToWrite);
 
 			if (fs) {
@@ -96,15 +97,15 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::Read(const DWORD numOfBytesToRead, const int offset, char* outBuffer, const LPDWORD outNumOfBytesRead)
+	inline DWORD UplaySaveInternal::Read(const DWORD numOfBytesToRead, const int offset, char* outBuffer, unsigned int* outNumOfBytesRead)
 	{
 		auto result = 0L;
 
 		if (fs)
 		{
-			fs.seekg(Consts::DefaultOffset + static_cast<streampos>(offset));
+			fs.seekg(Consts::DefaultSaveDataOffset + static_cast<streampos>(offset));
 			fs.read(outBuffer, numOfBytesToRead);
-			*outNumOfBytesRead = static_cast<DWORD>(fs.gcount());
+			*outNumOfBytesRead = static_cast<unsigned int>(fs.gcount());
 			result = 1L;
 		}
 
@@ -135,7 +136,7 @@ namespace UplayR1Loader
 			return static_cast<DWORD>(UpdateMetaDataStorage(storageDir, storage));
 		}
 
-		return 0L;
+		return 0;
 	}
 
 	//------------------------------------------------------------------------------
@@ -166,15 +167,26 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
+	inline DWORD UplaySaveInternal::GetSize() const
+	{
+		if (!fs.is_open())
+		{
+			return 0;
+		}
+
+		return static_cast<DWORD>(file_size(filePath));
+	}
+
+	//------------------------------------------------------------------------------
 	inline DWORD UplaySaveInternal::Close()
 	{
 		if (!fs.is_open())
 		{
-			return 0L;
+			return 0;
 		}
 
 		fs.close();
-		return 1L;
+		return 1;
 	}
 
 	//------------------------------------------------------------------------------
@@ -200,9 +212,9 @@ namespace UplayR1Loader
 
 	//------------------------------------------------------------------------------
 	inline optional<JsonObjects::UplaySaveMetaDataStorage> UplaySaveInternal::ReadMetaDataStorage(
-		const path & storagePath)
+		const path & savesPath)
 	{
-		const auto filePath = GetMetaDataStoragePath(storagePath);
+		const auto filePath = GetMetaDataStoragePath(savesPath);
 		const auto fs = fstream(filePath.string(), ios::in);
 
 		if (fs)
