@@ -111,9 +111,6 @@
     <ClInclude Include="UplayExports\UplayPresence.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UplayExports\UplayAch.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
