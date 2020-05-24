@@ -57,14 +57,14 @@ namespace UplayR1Loader::UplayExports
 				}
 			}
 
-			return 0L;
+			return 0;
 		}
 		catch (exception & ex)
 		{
 			LOGD_IF(UPLAY_LOG) << ex.what();
 		}
 
-		return 1L;
+		return 1;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_Start()
@@ -78,7 +78,7 @@ namespace UplayR1Loader::UplayExports
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
 
 		UplaySaveStorageSingleton::GetInstance().storage.RemoveAll();
-		return 1L;
+		return 1;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_HasOverlappedOperationCompleted(
@@ -90,12 +90,12 @@ namespace UplayR1Loader::UplayExports
 			return overlapped->isOperationCompleted != 0L;
 		}
 
-		return 0L;
+		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_Init()
 	{
-		return 1L;
+		return 1;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_GetOverlappedOperationResult(
@@ -107,16 +107,16 @@ namespace UplayR1Loader::UplayExports
 		if (overlapped && overlapped->isOperationCompleted)
 		{
 			*outResult = overlapped->reserved;
-			return 1L;
+			return 1;
 		}
 
-		return 0L;
+		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_Update()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 1L;
+		return 1;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_Release(UplayTypes::UplayList* list)
@@ -128,37 +128,37 @@ namespace UplayR1Loader::UplayExports
 			delete list;
 		}
 
-		return 1L;
+		return 1;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_GetNextEvent(int* arg)
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0L;
+		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_GetLastError(char* err)
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0L;
+		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_GetInstallationError(int* err)
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0L;
+		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_SetGameSession(int a1, int a2,
 		int a3, int a4)
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0L;
+		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_ClearGameSession()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 1L;
+		return 1;
 	}
 }
