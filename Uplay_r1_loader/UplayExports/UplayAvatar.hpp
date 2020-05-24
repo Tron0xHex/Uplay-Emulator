@@ -4,21 +4,21 @@
 
 namespace UplayR1Loader::UplayExports
 {
-	UPLAY_API inline int UPLAY_FUNC UPLAY_AVATAR_GetBitmap()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_AVATAR_GetBitmap()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_AVATAR_GetAvatarIdForCurrentUser()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_AVATAR_GetAvatarIdForCurrentUser()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_AVATAR_Get()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_AVATAR_Get()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 }

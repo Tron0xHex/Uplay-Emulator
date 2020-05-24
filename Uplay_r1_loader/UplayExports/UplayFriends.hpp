@@ -4,63 +4,63 @@
 
 namespace UplayR1Loader::UplayExports
 {
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_Init()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_Init()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 1;
+		return 1L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_GetFriendList()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_GetFriendList()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_RequestFriendship()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_RequestFriendship()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_IsFriend()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_IsFriend()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_AddToBlackList()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_AddToBlackList()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_IsBlackListed()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_IsBlackListed()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_ShowFriendSelectionUI()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_ShowFriendSelectionUI()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_EnableFriendMenuItem()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_EnableFriendMenuItem()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_DisableFriendMenuItem()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_DisableFriendMenuItem()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 
-	UPLAY_API inline int UPLAY_FUNC UPLAY_FRIENDS_InviteToGame()
+	UPLAY_API inline DWORD UPLAY_FUNC UPLAY_FRIENDS_InviteToGame()
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
-		return 0;
+		return 0L;
 	}
 }

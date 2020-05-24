@@ -1,6 +1,5 @@
 #pragma once
 #include <plog/Log.h>
-#include "../UplayConfigSingleton.hpp"
 
 namespace UplayR1Loader::UplayExports
 {
@@ -38,6 +37,6 @@ namespace UplayR1Loader::UplayExports
 	{
 		LOGD_IF(UPLAY_LOG) << "__CALL__";
 		return UplayConfigSingleton::GetInstance()
-		       .configHolder.config.uplay.language.c_str();
+			.configHolder.config.uplay.language.c_str();
 	}
 }
