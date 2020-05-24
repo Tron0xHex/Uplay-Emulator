@@ -175,6 +175,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UplayConfigHolder.hpp" />
     <ClInclude Include="UplayConfigSingleton.hpp" />
+    <ClInclude Include="UplayExports\UplayAch.hpp" />
     <ClInclude Include="UplayExports\UplayAchievements.hpp" />
     <ClInclude Include="UplayExports\UplayAvatar.hpp" />
     <ClInclude Include="UplayExports\UplayCommon.hpp" />
