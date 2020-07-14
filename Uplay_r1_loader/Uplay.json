@@ -6,10 +6,10 @@
       "UserName": "JosephSeed",
       "Password": "123456"
     },
-    "Saves": "",
+    "Saves": "X:\\Games\\Far Cry 3\\bin\\Saves",
     "CdKeys": [ "" ],
     "Language": "en-US",
     "Offline": true,
-    "Hooks": true
+    "Hooks": false
   }
 }

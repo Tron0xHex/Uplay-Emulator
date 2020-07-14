@@ -67,6 +67,7 @@ namespace nlohmann
 		x.language = j.at("Language").get<std::string>();
 		x.offline = j.at("Offline").get<bool>();
 		x.hooks = j.at("Hooks").get<bool>();
+		x.log = j.at("Log").get<bool>();
 	}
 
 	inline void to_json(json& j, const UplayR1Loader::JsonObjects::Uplay& x)
@@ -78,6 +79,7 @@ namespace nlohmann
 		j["Language"] = x.language;
 		j["Offline"] = x.offline;
 		j["Hooks"] = x.hooks;
+		j["Log"] = x.log;
 	}
 
 	inline void from_json(const json& j, UplayR1Loader::JsonObjects::UplayConfig& x)

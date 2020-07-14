@@ -26,5 +26,6 @@ namespace UplayR1Loader::JsonObjects
 		std::string language;
 		bool offline;
 		bool hooks;
+		bool log;
 	};
 }

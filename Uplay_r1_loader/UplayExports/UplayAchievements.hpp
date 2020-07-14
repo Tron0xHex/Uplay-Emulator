@@ -5,21 +5,22 @@
 
 namespace UplayR1Loader::UplayExports
 {
+	// ReSharper disable CppInconsistentNaming
 	UPLAY_API inline int UPLAY_FUNC UPLAY_ACH_GetAchievementImage()
 	{
-		LOGD_IF(UPLAY_LOG) << "__CALL__";
+		LOGD << "__CALL__";
 		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_ACH_EarnAchievement()
 	{
-		LOGD_IF(UPLAY_LOG) << "__CALL__";
+		LOGD << "__CALL__";
 		return 1;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_ACH_Write()
 	{
-		LOGD_IF(UPLAY_LOG) << "__CALL__";
+		LOGD << "__CALL__";
 		return 0;
 	}
 
@@ -27,13 +28,14 @@ namespace UplayR1Loader::UplayExports
 	                                                          UplayTypes::UplayList** outAchievementsList,
 	                                                          UplayTypes::UplayOverlapped* overlapped)
 	{
-		LOGD_IF(UPLAY_LOG) << "__CALL__";
+		LOGD << "__CALL__";
 		return 0;
 	}
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_ACH_ReleaseAchievementList(UplayTypes::UplayList** achievementsList)
 	{
-		LOGD_IF(UPLAY_LOG) << "__CALL__";
+		LOGD << "__CALL__";
 		return 1;
 	}
+	// ReSharper restore CppInconsistentNaming
 }

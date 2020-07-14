@@ -7,9 +7,9 @@ namespace UplayR1Loader::UplayTypes
 #ifdef UPLAY_API_2014_NEXT_GEN
 	struct UplayOverlapped
 	{
-		DWORD* result;
-		DWORD isOperationCompleted;
-		DWORD reserved;
+		int* result;
+		int isOperationCompleted;
+		int reserved;
 
 		void SetZeros();
 		void SetResult();
@@ -32,8 +32,8 @@ namespace UplayR1Loader::UplayTypes
 	struct UplayOverlapped
 	{
 		void* result;
-		DWORD isOperationCompleted;
-		DWORD reserved;
+		int isOperationCompleted;
+		int reserved;
 
 		void SetZeros();
 		void SetResult(void* result);

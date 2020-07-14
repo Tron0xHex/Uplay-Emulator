@@ -3,9 +3,11 @@
 
 namespace UplayR1Loader::UplayExports
 {
+	// ReSharper disable CppInconsistentNaming
 	UPLAY_API inline int UPLAY_FUNC UPLAY_PRESENCE_SetPresence()
 	{
-		LOGD_IF(UPLAY_LOG) << "__CALL__";
+		LOGD << "__CALL__";
 		return 0;
 	}
+	// ReSharper restore CppInconsistentNaming
 }

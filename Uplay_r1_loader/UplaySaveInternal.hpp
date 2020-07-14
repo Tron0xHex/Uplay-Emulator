@@ -19,18 +19,19 @@ namespace UplayR1Loader
 		explicit UplaySaveInternal(const path& path) noexcept;
 		UplaySaveInternal(const path& filePath, const string& name) noexcept;
 
-		DWORD Open();
-		DWORD Open(int mode);
-		DWORD Write(DWORD numOfBytesToWrite, const char* buffer);
-		DWORD Read(DWORD numOfBytesToRead, int offset, char* outBuffer, unsigned int* outNumOfBytesRead);
-		DWORD SetName(int slotId, const char* nameUtf8) const;
-		DWORD Remove(int slotId);
-		DWORD GetSize() const;
-		DWORD Close();
+		int Open();
+		int Open(int mode);
+		int Write(int numOfBytesToWrite, const char* buffer);
+		int Read(int numOfBytesToRead, int offset, char* outBuffer, unsigned int* outNumOfBytesRead);
+		int SetName(int slotId, const char* nameUtf8) const;
+		int Remove(int slotId);
+		int GetSize() const;
+		int Close();
 
 		static tuple<int, shared_ptr<UplaySaveInternal>> FromFile(const path& savePath);
 		static optional<JsonObjects::UplaySaveMetaDataStorage> ReadMetaDataStorage(const path& savesPath);
-		static bool UpdateMetaDataStorage(const path& storagePath, const JsonObjects::UplaySaveMetaDataStorage& storage);
+		static bool UpdateMetaDataStorage(const path& storagePath,
+		                                  const JsonObjects::UplaySaveMetaDataStorage& storage);
 		static bool CreateMetaDataStorage(const path& storagePath);
 
 		static bool IsMetaDataStorageExists(const path& storagePath);
@@ -48,12 +49,13 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline UplaySaveInternal::UplaySaveInternal(const path& filePath, const string& name) noexcept : initialName(name), filePath(filePath)
+	inline UplaySaveInternal::
+	UplaySaveInternal(const path& filePath, const string& name) noexcept : initialName(name), filePath(filePath)
 	{
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::Open(const int mode)
+	inline int UplaySaveInternal::Open(const int mode)
 	{
 		if (fs.is_open())
 		{
@@ -62,11 +64,11 @@ namespace UplayR1Loader
 
 		fs.open(filePath.string(), mode);
 
-		return static_cast<DWORD>(fs.is_open());
+		return static_cast<int>(fs.is_open());
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::Open()
+	inline int UplaySaveInternal::Open()
 	{
 		if (fs.is_open())
 		{
@@ -75,11 +77,11 @@ namespace UplayR1Loader
 
 		fs.open(filePath.string(), ios::in | ios::out | ios::binary);
 
-		return static_cast<DWORD>(fs.is_open());
+		return static_cast<int>(fs.is_open());
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::Write(const DWORD numOfBytesToWrite, const char* buffer)
+	inline int UplaySaveInternal::Write(const int numOfBytesToWrite, const char* buffer)
 	{
 		auto result = 0L;
 
@@ -88,7 +90,8 @@ namespace UplayR1Loader
 			fs.seekg(Consts::DefaultSaveDataOffset, ios::beg);
 			fs.write(buffer, numOfBytesToWrite);
 
-			if (fs) {
+			if (fs)
+			{
 				result = 1L;
 			}
 		}
@@ -97,7 +100,8 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::Read(const DWORD numOfBytesToRead, const int offset, char* outBuffer, unsigned int* outNumOfBytesRead)
+	inline int UplaySaveInternal::Read(const int numOfBytesToRead, const int offset, char* outBuffer,
+	                                   unsigned int* outNumOfBytesRead)
 	{
 		auto result = 0L;
 
@@ -105,7 +109,9 @@ namespace UplayR1Loader
 		{
 			fs.seekg(Consts::DefaultSaveDataOffset + static_cast<streampos>(offset));
 			fs.read(outBuffer, numOfBytesToRead);
+
 			*outNumOfBytesRead = static_cast<unsigned int>(fs.gcount());
+
 			result = 1L;
 		}
 
@@ -113,7 +119,7 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::SetName(const int slotId, const char* nameUtf8) const
+	inline int UplaySaveInternal::SetName(const int slotId, const char* nameUtf8) const
 	{
 		const auto storageDir = filePath.parent_path();
 		const auto slotIdStr = to_string(slotId);
@@ -133,14 +139,14 @@ namespace UplayR1Loader
 				storage.saves.emplace(slotIdStr, name);
 			}
 
-			return static_cast<DWORD>(UpdateMetaDataStorage(storageDir, storage));
+			return static_cast<int>(UpdateMetaDataStorage(storageDir, storage));
 		}
 
 		return 0;
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::Remove(const int slotId)
+	inline int UplaySaveInternal::Remove(const int slotId)
 	{
 		if (fs.is_open())
 		{
@@ -163,22 +169,22 @@ namespace UplayR1Loader
 			UpdateMetaDataStorage(storageDir, storage);
 		}
 
-		return static_cast<DWORD>(filesystem::remove(filePath));
+		return static_cast<int>(filesystem::remove(filePath));
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::GetSize() const
+	inline int UplaySaveInternal::GetSize() const
 	{
 		if (!fs.is_open())
 		{
 			return 0;
 		}
 
-		return static_cast<DWORD>(file_size(filePath));
+		return static_cast<int>(file_size(filePath));
 	}
 
 	//------------------------------------------------------------------------------
-	inline DWORD UplaySaveInternal::Close()
+	inline int UplaySaveInternal::Close()
 	{
 		if (!fs.is_open())
 		{
@@ -190,7 +196,7 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline tuple<int, std::shared_ptr<UplaySaveInternal>> UplaySaveInternal::FromFile(const path & savePath)
+	inline tuple<int, std::shared_ptr<UplaySaveInternal>> UplaySaveInternal::FromFile(const path& savePath)
 	{
 		const auto storageDir = savePath.parent_path();
 		const auto slotIdString = savePath.stem().string();
@@ -212,7 +218,7 @@ namespace UplayR1Loader
 
 	//------------------------------------------------------------------------------
 	inline optional<JsonObjects::UplaySaveMetaDataStorage> UplaySaveInternal::ReadMetaDataStorage(
-		const path & savesPath)
+		const path& savesPath)
 	{
 		const auto filePath = GetMetaDataStoragePath(savesPath);
 		const auto fs = fstream(filePath.string(), ios::in);
@@ -228,8 +234,8 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline bool UplaySaveInternal::UpdateMetaDataStorage(const path & storagePath,
-		const JsonObjects::UplaySaveMetaDataStorage & storage)
+	inline bool UplaySaveInternal::UpdateMetaDataStorage(const path& storagePath,
+	                                                     const JsonObjects::UplaySaveMetaDataStorage& storage)
 	{
 		const auto filePath = GetMetaDataStoragePath(storagePath);
 
@@ -248,7 +254,7 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline bool UplaySaveInternal::CreateMetaDataStorage(const path & storagePath)
+	inline bool UplaySaveInternal::CreateMetaDataStorage(const path& storagePath)
 	{
 		auto fs = fstream(GetMetaDataStoragePath(storagePath).string(), ios::out);
 
@@ -262,13 +268,13 @@ namespace UplayR1Loader
 	}
 
 	//------------------------------------------------------------------------------
-	inline bool UplaySaveInternal::IsMetaDataStorageExists(const path & storagePath)
+	inline bool UplaySaveInternal::IsMetaDataStorageExists(const path& storagePath)
 	{
 		return exists(GetMetaDataStoragePath(storagePath));
 	}
 
 	//------------------------------------------------------------------------------
-	inline path UplaySaveInternal::GetMetaDataStoragePath(const path & storagePath)
+	inline path UplaySaveInternal::GetMetaDataStoragePath(const path& storagePath)
 	{
 		return storagePath / path(Consts::SavesMetaDataStorageName);
 	}

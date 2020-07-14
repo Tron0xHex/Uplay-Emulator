@@ -10,10 +10,11 @@
 
 namespace UplayR1Loader::UplayExports
 {
+	// ReSharper disable CppInconsistentNaming
 	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_GetSavegames(
 		UplayTypes::UplayList** outGamesList, UplayTypes::UplayOverlapped* overlapped)
 	{
-		LOGD_IF(UPLAY_LOG) << hex << "OutGamesList: " << outGamesList
+		LOGD << hex << "OutGamesList: " << outGamesList
 			<< " Overlapped: " << overlapped;
 
 #ifdef UPLAY_API_2014_NEXT_GEN
@@ -40,11 +41,11 @@ namespace UplayR1Loader::UplayExports
 #else
 		int index = 0U;
 
-		const auto uplayList = new UplayTypes::UplayList{ NULL };
+		const auto uplayList = new UplayTypes::UplayList{NULL};
 		const auto uplaySaves = UplaySaveStorageSingleton::GetInstance().storage.GetSaves();
 
 		const auto savesSize = static_cast<int>(uplaySaves.size());
-		const auto savesList = new UplayTypes::UplaySave * [savesSize] {nullptr};
+		const auto savesList = new UplayTypes::UplaySave * [savesSize]{nullptr};
 
 		uplayList->count = static_cast<int>(uplaySaves.size());
 		uplayList->saves = savesList;
@@ -66,7 +67,7 @@ namespace UplayR1Loader::UplayExports
 	                                                int* outSaveHandle,
 	                                                UplayTypes::UplayOverlapped* overlapped)
 	{
-		LOGD_IF(UPLAY_LOG) << hex << "SlotId: " << slotId << " Mode: " << mode
+		LOGD << hex << "SlotId: " << slotId << " Mode: " << mode
 			<< " OutSaveHandle: " << outSaveHandle
 			<< " Overlapped: " << overlapped;
 
@@ -85,8 +86,8 @@ namespace UplayR1Loader::UplayExports
 				const auto saves = UplayConfigSingleton::GetInstance().configHolder.config.uplay.saves;
 				const auto saveFileName = to_string(slotId) + Consts::SaveFileExtension;
 
-				const auto savePt = path(saves) / path(saveFileName);
-				const auto uplaySave = make_shared<UplaySaveInternal>(savePt);
+				const auto savePath = path(saves) / path(saveFileName);
+				const auto uplaySave = make_shared<UplaySaveInternal>(savePath);
 
 				UplaySaveStorageSingleton::GetInstance().storage.AppendSave(slotId, uplaySave);
 
@@ -99,7 +100,7 @@ namespace UplayR1Loader::UplayExports
 		}
 		catch (exception& ex)
 		{
-			LOGD_IF(UPLAY_LOG) << ex.what();
+			LOGD << ex.what();
 		}
 
 		*outSaveHandle = slotId;
@@ -115,7 +116,7 @@ namespace UplayR1Loader::UplayExports
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_Close(const int outSaveHandle)
 	{
-		LOGD_IF(UPLAY_LOG) << hex << "OutSaveHandle: " << outSaveHandle;
+		LOGD << hex << "OutSaveHandle: " << outSaveHandle;
 
 		if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(outSaveHandle))
 		{
@@ -136,7 +137,7 @@ namespace UplayR1Loader::UplayExports
 	                                                unsigned int* outNumOfBytesRead,
 	                                                UplayTypes::UplayOverlapped* overlapped)
 	{
-		LOGD_IF(UPLAY_LOG) << hex << "SaveHandle: " << saveHandle
+		LOGD << hex << "SaveHandle: " << saveHandle
 			<< " NumOfBytesToRead: " << numOfBytesToRead << " Offset: " << offset
 			<< " OutBuffer: " << outBuffer << " OutNumOfBytesRead: "
 			<< outNumOfBytesRead << " Overlapped: " << overlapped;
@@ -162,7 +163,7 @@ namespace UplayR1Loader::UplayExports
 		}
 		catch (exception& ex)
 		{
-			LOGD_IF(UPLAY_LOG) << ex.what();
+			LOGD << ex.what();
 		}
 
 		return 0;
@@ -172,7 +173,7 @@ namespace UplayR1Loader::UplayExports
 		const int saveHandle, const int numOfBytesToWrite, const char** buffer,
 		UplayTypes::UplayOverlapped* overlapped)
 	{
-		LOGD_IF(UPLAY_LOG) << hex << "SaveHandle: " << saveHandle
+		LOGD << hex << "SaveHandle: " << saveHandle
 			<< " NumOfBytesToWrite: " << numOfBytesToWrite
 			<< " Buffer: " << buffer << " Overlapped: "
 			<< overlapped;
@@ -198,7 +199,7 @@ namespace UplayR1Loader::UplayExports
 		}
 		catch (exception& ex)
 		{
-			LOGD_IF(UPLAY_LOG) << ex.what();
+			LOGD << ex.what();
 		}
 
 		return 0;
@@ -207,7 +208,7 @@ namespace UplayR1Loader::UplayExports
 	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_SetName(const int saveHandle,
 	                                                   const char* nameUtf8)
 	{
-		LOGD_IF(UPLAY_LOG) << hex << "SaveHandle: " << saveHandle
+		LOGD << hex << "SaveHandle: " << saveHandle
 			<< " NameUtf8: " << nameUtf8;
 
 		try
@@ -224,7 +225,7 @@ namespace UplayR1Loader::UplayExports
 		}
 		catch (exception& ex)
 		{
-			LOGD_IF(UPLAY_LOG) << ex.what();
+			LOGD << ex.what();
 		}
 
 		return 0;
@@ -233,7 +234,7 @@ namespace UplayR1Loader::UplayExports
 	UPLAY_API inline int UPLAY_FUNC UPLAY_SAVE_Remove(
 		int slotId, UplayTypes::UplayOverlapped* overlapped)
 	{
-		LOGD_IF(UPLAY_LOG) << hex << "SlotId: " << slotId << " Overlapped: " << overlapped;
+		LOGD << hex << "SlotId: " << slotId << " Overlapped: " << overlapped;
 
 		overlapped->SetZeros();
 
@@ -258,9 +259,10 @@ namespace UplayR1Loader::UplayExports
 		}
 		catch (exception& ex)
 		{
-			LOGD_IF(UPLAY_LOG) << ex.what();
+			LOGD << ex.what();
 		}
 
 		return 0;
 	}
+	// ReSharper restore CppInconsistentNaming
 }
