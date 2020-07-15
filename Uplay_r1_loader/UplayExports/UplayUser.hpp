@@ -2,7 +2,7 @@
 
 #include <plog/Log.h>
 
-#include "../UplayConfigSingleton.hpp"
+#include "../EUplayConfigSingleton.hpp"
 #include "../UplayTypes/UplayList.hpp"
 #include "../UplayTypes/UplayOverlapped.hpp"
 
@@ -15,7 +15,7 @@ namespace UplayR1Loader::UplayExports
 		LOGD << hex << "OutCdKeyList: " << outCdKeyList << " Overlapped: "
 			<< overlapped;
 
-		const auto uplayKeys = UplayConfigSingleton::GetInstance().configHolder.config.uplay.cdKeys;
+		const auto uplayKeys = EUplayConfigSingleton::GetInstance().configHolder.config.uplay.cdKeys;
 
 		const auto list = new UplayTypes::UplayList{NULL};
 
@@ -25,7 +25,7 @@ namespace UplayR1Loader::UplayExports
 		list->keys = keys;
 		list->count = uplayKeys.size();
 
-		for (int i = 0; i < keysSize; i++)
+		for (auto i = 0; i < keysSize; i++)
 		{
 			list->keys[i] = new UplayTypes::UplayKey(uplayKeys.at(i).c_str());
 		}
@@ -51,7 +51,7 @@ namespace UplayR1Loader::UplayExports
 	{
 		LOGD << "__CALL__";
 
-		const auto userName = UplayConfigSingleton::GetInstance()
+		const auto userName = EUplayConfigSingleton::GetInstance()
 		                      .configHolder.config.uplay.profile.userName;
 
 		lstrcpyA(credentials, userName.c_str());
@@ -75,21 +75,21 @@ namespace UplayR1Loader::UplayExports
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetAccountIdUtf8()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.accountId.c_str();
 	}
 
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetUsernameUtf8()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.userName.c_str();
 	}
 
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetNameUtf8()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.userName.c_str();
 	}
 
@@ -97,42 +97,42 @@ namespace UplayR1Loader::UplayExports
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetEmailUtf8()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.email.c_str();
 	}
 
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetPasswordUtf8()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.password.c_str();
 	}
 
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetAccountId()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.accountId.c_str();
 	}
 
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetUsername()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.userName.c_str();
 	}
 
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetEmail()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.email.c_str();
 	}
 
 	UPLAY_API inline LPCSTR UPLAY_FUNC UPLAY_USER_GetPassword()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.profile.password.c_str();
 	}
 
@@ -151,7 +151,7 @@ namespace UplayR1Loader::UplayExports
 	UPLAY_API inline int UPLAY_FUNC UPLAY_USER_IsInOfflineMode()
 	{
 		LOGD << "__CALL__";
-		return static_cast<int>(UplayConfigSingleton::GetInstance()
+		return static_cast<int>(EUplayConfigSingleton::GetInstance()
 		                        .configHolder.config.uplay.offline);
 	}
 

@@ -5,14 +5,14 @@
 
 namespace UplayR1Loader
 {
-	struct UplayConfigHolder
+	struct EUplayConfigHolder
 	{
 		JsonObjects::UplayConfig config;
 		void Open(const path& filePath);
 	};
 
 	//------------------------------------------------------------------------------
-	inline void UplayConfigHolder::Open(const path& filePath)
+	inline void EUplayConfigHolder::Open(const path& filePath)
 	{
 		const auto fs = fstream(filePath, ios::in);
 		const auto jsonString = static_cast<stringstream const&>(stringstream() << fs.rdbuf()).str();

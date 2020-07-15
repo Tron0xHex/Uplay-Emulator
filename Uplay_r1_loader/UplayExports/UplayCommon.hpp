@@ -2,10 +2,9 @@
 
 #include <plog/Log.h>
 
-#include "../UplayConfigSingleton.hpp"
+#include "../EUplayConfigSingleton.hpp"
 #include "../UplayTypes/UplayOverlapped.hpp"
 #include "../UplayTypes/UplayList.hpp"
-#include "../UplaySaveStorageSingleton.hpp"
 
 namespace UplayR1Loader::UplayExports
 {
@@ -43,36 +42,7 @@ namespace UplayR1Loader::UplayExports
 
 	UPLAY_API inline int UPLAY_FUNC UPLAY_Init()
 	{
-		const auto savesPath = path(
-			UplayConfigSingleton::GetInstance().configHolder.config.uplay.saves);
-
-		if (!exists(savesPath) && !create_directories(savesPath))
-		{
-			throw exception("Unable to create directories!");
-		}
-
-		if (!UplaySaveInternal::IsMetaDataStorageExists(savesPath) && !UplaySaveInternal::CreateMetaDataStorage(
-			savesPath))
-		{
-			throw exception("Unable to create meta data storage!");
-		}
-
-		if (!filesystem::is_empty(savesPath))
-		{
-			for (const auto& dirEntry : directory_iterator(savesPath))
-			{
-				const auto path = dirEntry.path();
-
-				if (path.has_extension() && path.extension().string() == Consts::SaveFileExtension)
-				{
-					auto [slotId, uplaySave] = UplaySaveInternal::FromFile(path);
-
-					UplaySaveStorageSingleton::GetInstance().storage.AppendSave(
-						slotId, uplaySave);
-				}
-			}
-		}
-
+		LOGD << "__CALL__";
 		return 1;
 	}
 

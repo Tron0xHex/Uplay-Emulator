@@ -37,7 +37,7 @@ namespace UplayR1Loader::UplayExports
 	UPLAY_API inline const char* UPLAY_FUNC UPLAY_INSTALLER_GetLanguageUtf8()
 	{
 		LOGD << "__CALL__";
-		return UplayConfigSingleton::GetInstance()
+		return EUplayConfigSingleton::GetInstance()
 		       .configHolder.config.uplay.language.c_str();
 	}
 	// ReSharper restore CppInconsistentNaming

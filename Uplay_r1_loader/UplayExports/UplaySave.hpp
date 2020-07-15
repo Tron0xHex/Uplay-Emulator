@@ -2,9 +2,9 @@
 
 #include <plog/Log.h>
 
-#include "../UplaySaveStorageSingleton.hpp"
+#include "../EUplaySaveStorageSingleton.hpp"
 #include "../UplayTypes/UplayOverlapped.hpp"
-#include "../UplayConfigSingleton.hpp"
+#include "../EUplayConfigSingleton.hpp"
 #include "../UplayTypes/UplaySave.hpp"
 #include "../UplayTypes/UplayList.hpp"
 
@@ -21,7 +21,7 @@ namespace UplayR1Loader::UplayExports
 		int index = 0U;
 
 		const auto uplayList = new UplayTypes::UplayList{NULL};
-		const auto uplaySaves = UplaySaveStorageSingleton::GetInstance().storage.GetSaves();
+		const auto uplaySaves = EUplaySaveStorageSingleton::GetInstance().storage.GetSaves();
 
 		const auto savesSize = static_cast<int>(uplaySaves.size());
 		const auto savesList = new UplayTypes::UplaySave * [savesSize]{nullptr};
@@ -42,7 +42,7 @@ namespace UplayR1Loader::UplayExports
 		int index = 0U;
 
 		const auto uplayList = new UplayTypes::UplayList{NULL};
-		const auto uplaySaves = UplaySaveStorageSingleton::GetInstance().storage.GetSaves();
+		const auto uplaySaves = EUplaySaveStorageSingleton::GetInstance().storage.GetSaves();
 
 		const auto savesSize = static_cast<int>(uplaySaves.size());
 		const auto savesList = new UplayTypes::UplaySave * [savesSize]{nullptr};
@@ -81,21 +81,21 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (!UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(slotId))
+			if (!EUplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(slotId))
 			{
-				const auto saves = UplayConfigSingleton::GetInstance().configHolder.config.uplay.saves;
+				const auto saves = EUplayConfigSingleton::GetInstance().configHolder.config.uplay.saves;
 				const auto saveFileName = to_string(slotId) + Consts::SaveFileExtension;
 
 				const auto savePath = path(saves) / path(saveFileName);
-				const auto uplaySave = make_shared<UplaySaveInternal>(savePath);
+				const auto uplaySave = make_shared<EUplaySave>(savePath);
 
-				UplaySaveStorageSingleton::GetInstance().storage.AppendSave(slotId, uplaySave);
+				EUplaySaveStorageSingleton::GetInstance().storage.AppendSave(slotId, uplaySave);
 
 				result = uplaySave->Open(openMode);
 			}
 			else
 			{
-				result = UplaySaveStorageSingleton::GetInstance().storage.GetSave(slotId)->Open(openMode);
+				result = EUplaySaveStorageSingleton::GetInstance().storage.GetSave(slotId)->Open(openMode);
 			}
 		}
 		catch (exception& ex)
@@ -118,9 +118,9 @@ namespace UplayR1Loader::UplayExports
 	{
 		LOGD << hex << "OutSaveHandle: " << outSaveHandle;
 
-		if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(outSaveHandle))
+		if (EUplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(outSaveHandle))
 		{
-			const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(outSaveHandle);
+			const auto uplaySave = EUplaySaveStorageSingleton::GetInstance().storage.GetSave(outSaveHandle);
 
 			if (uplaySave->Close())
 			{
@@ -146,9 +146,9 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
+			if (EUplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
 			{
-				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
+				const auto uplaySave = EUplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
 
 				if (uplaySave->Read(numOfBytesToRead, offset, *outBuffer, outNumOfBytesRead))
 				{
@@ -182,9 +182,9 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
+			if (EUplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
 			{
-				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
+				const auto uplaySave = EUplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
 
 				if (uplaySave->Write(numOfBytesToWrite, *buffer))
 				{
@@ -213,9 +213,9 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
+			if (EUplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(saveHandle))
 			{
-				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
+				const auto uplaySave = EUplaySaveStorageSingleton::GetInstance().storage.GetSave(saveHandle);
 
 				if (uplaySave->SetName(saveHandle, nameUtf8))
 				{
@@ -240,13 +240,13 @@ namespace UplayR1Loader::UplayExports
 
 		try
 		{
-			if (UplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(slotId))
+			if (EUplaySaveStorageSingleton::GetInstance().storage.IsSaveExists(slotId))
 			{
-				const auto uplaySave = UplaySaveStorageSingleton::GetInstance().storage.GetSave(slotId);
+				const auto uplaySave = EUplaySaveStorageSingleton::GetInstance().storage.GetSave(slotId);
 
 				if (uplaySave->Remove(slotId))
 				{
-					UplaySaveStorageSingleton::GetInstance().storage.RemoveSave(slotId);
+					EUplaySaveStorageSingleton::GetInstance().storage.RemoveSave(slotId);
 
 #ifdef UPLAY_API_2014_NEXT_GEN
 					overlapped->SetResult();

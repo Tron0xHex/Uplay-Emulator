@@ -14,7 +14,7 @@ namespace UplayR1Loader::Patches
 		/*
 		 * 78C75186 | C746 40 01000000          | mov int ptr ds:[esi+40],1                                                             |
 		 * 78C7518D | 8B0D 4C8A267A             | mov ecx,int ptr ds:[7A268A4C]                                                         | ecx:EntryPoint
-		 * 78C75193 | E8 F524F5FF               | call fc3.78BC768D                                                                     |
+		 * 78C75193 | E8 F524F5FF               | call fc3.78BC768D																		|
 		 */
 
 		const auto addresses = Memory::AobScan::FindPatternInModule(Consts::FarCry3DllName, Consts::FarCry3DllPatchSig);

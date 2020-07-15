@@ -10,6 +10,7 @@
     "CdKeys": [ "" ],
     "Language": "en-US",
     "Offline": true,
-    "Hooks": false
+    "Hooks": false,
+    "Log":  true
   }
 }

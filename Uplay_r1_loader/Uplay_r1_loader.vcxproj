@@ -89,7 +89,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)\ThirdParty;$(IncludePath)</IncludePath>
-    <TargetName>uplay_r1_loader64</TargetName>
+    <TargetName>ExUplay</TargetName>
     <LibraryPath>$(SolutionDir)\ThirdParty\minhook\lib;$(IncludePath);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -181,8 +181,8 @@
     <ClInclude Include="Patches.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="UplayConfigHolder.hpp" />
-    <ClInclude Include="UplayConfigSingleton.hpp" />
+    <ClInclude Include="EUplayConfigHolder.hpp" />
+    <ClInclude Include="EUplayConfigSingleton.hpp" />
     <ClInclude Include="UplayExports\UplayAch.hpp" />
     <ClInclude Include="UplayExports\UplayAchievements.hpp" />
     <ClInclude Include="UplayExports\UplayAvatar.hpp" />
@@ -197,9 +197,9 @@
     <ClInclude Include="UplayExports\UplaySave.hpp" />
     <ClInclude Include="UplayExports\UplayUser.hpp" />
     <ClInclude Include="UplayExports\UplayWin.hpp" />
-    <ClInclude Include="UplaySaveInternal.hpp" />
-    <ClInclude Include="UplaySaveStorageInternal.hpp" />
-    <ClInclude Include="UplaySaveStorageSingleton.hpp" />
+    <ClInclude Include="EUplaySave.hpp" />
+    <ClInclude Include="EUplaySaveStorage.hpp" />
+    <ClInclude Include="EUplaySaveStorageSingleton.hpp" />
     <ClInclude Include="UplayTypes\UplayKey.hpp" />
     <ClInclude Include="UplayTypes\UplayList.hpp" />
     <ClInclude Include="UplayTypes\UplayOverlapped.hpp" />

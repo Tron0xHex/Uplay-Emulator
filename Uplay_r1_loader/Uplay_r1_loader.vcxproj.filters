@@ -36,21 +36,6 @@
     <ClInclude Include="Consts.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UplayConfigSingleton.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UplaySaveInternal.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UplaySaveStorageInternal.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UplaySaveStorageSingleton.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UplayConfigHolder.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JsonObjects\Generators.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -124,6 +109,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Memory\Utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EUplaySave.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EUplayConfigHolder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EUplayConfigSingleton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EUplaySaveStorage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EUplaySaveStorageSingleton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
