@@ -1,0 +1,21 @@
+{
+    "Uplay": {
+      "Profile": {
+        "AccountId": "JosephSeed",
+        "Email": "fuck.ubisoft@stopoutposts.com",
+        "Username": "JosephSeed",
+        "Password": "123456"
+      },
+      "Saves": "V:\\Games\\Assassin's Creed Unity RU\\Saves",
+      "CdKeys": [
+        ""
+      ],
+      "Log": {
+        "Write": true,
+        "Path": "V:\\Games\\Assassin's Creed Unity RU\\Log.log"
+      },
+      "Language": "en-US",
+      "OfflineMode": true,
+      "InstallHooks": true
+    }
+  }
