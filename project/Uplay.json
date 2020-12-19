@@ -1,0 +1,21 @@
+{
+  "Uplay": {
+    "Profile": {
+      "AccountId": "JosephSeed",
+      "Email": "fuck.ubisoft@stopoutposts.com",
+      "Username": "JosephSeed",
+      "Password": "123456"
+    },
+    "Saves": "X:\\Games\\Far Cry 3\\bin\\Saves",
+    "CdKeys": [
+      ""
+    ],
+    "Log": {
+      "Write": true,
+      "Path": ""
+    },
+    "Language": "en-US",
+    "OfflineMode": true,
+    "InstallHooks": false
+  }
+}
